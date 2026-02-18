@@ -9,3 +9,9 @@ install(
   DIRECTORY config launch srdf
   DESTINATION share/${PROJECT_NAME}
 )
+
+# Install executables
+install(PROGRAMS
+  scripts/wait_for_robot_description
+  DESTINATION lib/${PROJECT_NAME}
+)

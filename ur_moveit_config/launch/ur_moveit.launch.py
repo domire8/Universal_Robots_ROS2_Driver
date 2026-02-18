@@ -125,7 +125,7 @@ def generate_launch_description():
     ld.add_entity(declare_arguments())
 
     wait_robot_description = Node(
-        package="ur_robot_driver",
+        package="ur_moveit_config",
         executable="wait_for_robot_description",
         output="screen",
     )
@@ -188,3 +188,12 @@ def generate_launch_description():
     )
 
     return ld
+
+    # return LaunchDescription(
+    #     [
+    #         declare_arguments(),
+    #         move_group_node,
+    #         servo_node,
+    #         rviz_node,
+    #     ]
+    # )

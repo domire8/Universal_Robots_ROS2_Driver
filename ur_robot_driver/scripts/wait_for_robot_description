@@ -40,7 +40,7 @@ class DescriptionSubscriber(Node):
 
     def __init__(self):
         super().__init__("wait_for_robot_description")
-        self.topic = "robot_description"
+        self.topic = "/hardware/robot_description"
         qos_profile = QoSProfile(
             depth=1,
             durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,

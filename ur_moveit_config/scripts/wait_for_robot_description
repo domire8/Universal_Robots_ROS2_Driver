@@ -32,7 +32,6 @@ from rclpy.node import Node
 
 from std_msgs.msg import String
 
-from rclpy.task import Future
 from rclpy.qos import QoSProfile, QoSDurabilityPolicy
 
 
@@ -49,16 +48,14 @@ class DescriptionSubscriber(Node):
             String, self.topic, self.desc_callback, qos_profile=qos_profile
         )
         self.publisher = self.create_publisher(String, "/robot_description", qos_profile=qos_profile)
-        self.future = Future()
 
         self.get_logger().info(f"Waiting for message on {self.resolve_topic_name(self.topic)}.")
 
     def desc_callback(self, msg):
         self.get_logger().info(
-            f"Received message on {self.resolve_topic_name(self.topic)}. Shutting down."
+            f"Received message on {self.resolve_topic_name(self.topic)}. Republishing."
         )
         self.publisher.publish(msg)
-        self.future.set_result(True)
 
 
 def main(args=None):
@@ -66,7 +63,7 @@ def main(args=None):
 
     sub = DescriptionSubscriber()
 
-    rclpy.spin_until_future_complete(sub, sub.future)
+    rclpy.spin(sub)
 
     sub.destroy_node()
     rclpy.shutdown()

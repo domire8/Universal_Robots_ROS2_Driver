@@ -34,9 +34,8 @@ import yaml
 from pathlib import Path
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
 from launch.substitutions import (
     LaunchConfiguration,
     PathJoinSubstitution,
@@ -178,22 +177,8 @@ def generate_launch_description():
         ],
     )
 
-    ld.add_action(
-        RegisterEventHandler(
-            OnProcessExit(
-                target_action=wait_robot_description,
-                on_exit=[move_group_node, rviz_node, servo_node],
-            )
-        ),
-    )
+    ld.add_action(move_group_node)
+    ld.add_action(rviz_node)
+    ld.add_action(servo_node)
 
     return ld
-
-    # return LaunchDescription(
-    #     [
-    #         declare_arguments(),
-    #         move_group_node,
-    #         servo_node,
-    #         rviz_node,
-    #     ]
-    # )
